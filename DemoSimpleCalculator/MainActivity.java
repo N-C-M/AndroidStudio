@@ -1,4 +1,4 @@
-package app.demo.net;
+package app.cec.demo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,80 +8,132 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    TextView tvResult;
-    EditText etUrl;
-    Button btnGo;
-    String url="https://www.google.com";
-
+    EditText etFirst,etSec;
+    Button btnAdd,btnSub,btnX,btnDiv,btnClr;
+    TextView tvRes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tvResult=findViewById(R.id.tv_result);
-        etUrl=findViewById(R.id.et_url);
-        btnGo=findViewById(R.id.btn_go);
+        etFirst=findViewById(R.id.et_first);
+        etSec=findViewById(R.id.et_sec);
+        btnAdd=findViewById(R.id.btn_add);
+        btnSub=findViewById(R.id.btn_sub);
+        btnX=findViewById(R.id.btn_x);
+        btnDiv=findViewById(R.id.btn_div);
+        tvRes=findViewById(R.id.tv_res);
+        btnClr=findViewById(R.id.btn_clr);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { 
+                try {
 
+                    new AddTask().execute();
+                    int a = Integer.parseInt(etFirst.getText().toString());
+                    int b = Integer.parseInt(etSec.getText().toString());
+                    int c = add(a,b);
 
+                    tvRes.setText(String.valueOf(c));*/
+                   new AddTask().execute();
+                }catch(Exception e){
+                    showErrorToast();
 
-        btnGo.setOnClickListener(new View.OnClickListener() {
+                }
+
+            }
+
+        });
+        btnSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                url=etUrl.getText().toString();
-                if(!url.isEmpty()){
-                    doHttpCall();
-                }else{
-                    url="https://www.google.com" ;
-                    doHttpCall();
+                try {
+                    int a = Integer.parseInt(etFirst.getText().toString());
+                    int b = Integer.parseInt(etSec.getText().toString());
+                    int c = a - b;
+
+                    tvRes.setText(String.valueOf(c));
+                }catch(Exception e){
+                    showErrorToast();
+                }
+
+            }
+        });
+        btnX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    int a = Integer.parseInt(etFirst.getText().toString());
+                    int b = Integer.parseInt(etSec.getText().toString());
+                    int c = a * b;
+
+                    tvRes.setText(String.valueOf(c));
+                }catch(Exception e){
+                    showErrorToast();
                 }
             }
         });
+        btnDiv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    int a = Integer.parseInt(etFirst.getText().toString());
+                    int b = Integer.parseInt(etSec.getText().toString());
+                    float c = (float)a / b;
+
+                    tvRes.setText(String.valueOf(c));
+                }catch(Exception e){
+                    showErrorToast();
+                }
+
+            }
+        });
+        btnClr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                etFirst.setText("");
+                etSec.setText("");
+                tvRes.setText("");
+            }
+        });
+    }
+    public void showErrorToast()
+    {
+        Toast.makeText(this," Enter a number",Toast.LENGTH_SHORT).show();
     }
 
-    public void doHttpCall(){
-     new HttpTask(url).execute();
+    public int add(int a,int b){
+        return a+b;
     }
-    class HttpTask extends AsyncTask {
-        String url;
-        HttpTask(String url){
-            this.url=url;
-        }
+   /* class AddTask extends AsyncTask {    
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            tvResult.setText("LOADING");
+            tvRes.setText("Please Wait");       
+
         }
 
         @Override
         protected Object doInBackground(Object[] objects) {
-            String line="";
-            try{
-            URL url= new URL(this.url);
-            HttpURLConnection connection=(HttpURLConnection)url.openConnection();
-            connection.setRequestMethod("GET");
-            InputStream inputStream = connection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            line = bufferedReader.readLine();
-            }catch (Exception e){
-                e.printStackTrace();
-                line="ERROR OCCURED";
+         try{
+                 Thread.sleep(3000);}  
+         catch(Exception e){
+
             }
-            return line;
-       }
+         String epoch=String.valueOf(System.currentTimeMillis());      
+         return epoch;
+
+        }
 
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            tvResult.setText((String)o);
+            tvRes.setText((String)o);                             
         }
-    }
+    } /*return the epoch time */ 
 }
+
+
