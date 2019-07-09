@@ -1,4 +1,3 @@
-
 package app.demo.net;
 
 import androidx.appcompat.app.AppCompatActivity;
