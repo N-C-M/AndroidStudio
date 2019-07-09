@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     public int add(int a,int b){
         return a+b;
     }
-    class AddTask extends AsyncTask {    
+   /* class AddTask extends AsyncTask {    
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
          catch(Exception e){
 
             }
-         String epoch=String.valueOf(System.currentTimeMillis());                                    /*return the epoch time */
+         String epoch=String.valueOf(System.currentTimeMillis());      
          return epoch;
 
         }
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(o);
             tvRes.setText((String)o);                             
         }
-    }
+    } /*return the epoch time */ 
 }
 
 
